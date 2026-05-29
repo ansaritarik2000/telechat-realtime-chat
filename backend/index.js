@@ -61,10 +61,10 @@ app.get("/test", (req, res) => {
 });
 
 io.on("connection", (socket) => {
-  console.log("User connected:", socket.id);
+  // console.log("User connected:", socket.id);
 
   socket.onAny((event, ...args) => {
-    console.log("EVENT RECEIVED:", event, args);
+    // console.log("EVENT RECEIVED:", event, args);
   });
 
   socket.on("joinGroup", async ({ groupId, userId }) => {
@@ -220,6 +220,6 @@ server.listen(PORT, () => {
 });
 
 process.on("unhandledRejection", (err) => {
-  console.log(err.name, err.message);
+  // console.log(err.name, err.message);
   server.close(() => process.exit(1));
 });
