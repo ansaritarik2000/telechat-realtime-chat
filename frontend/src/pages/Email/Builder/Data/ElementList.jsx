@@ -1,0 +1,185 @@
+export default [
+    {
+        icon: "radix-icons:button",
+        label: "Button",
+        type: "Button",
+        content: "Sample Button",
+        url: "#",
+        style: {
+            textAlign: "center",
+            backgroundColor: "#007bff",
+            color: "#ffffff",
+            padding: "10px",
+            width: "auto",
+            fontSize: "16px",
+            borderRadius: "6px",
+            fontWeight: "normal",
+            objectFit: "contain",
+        },
+        outerStyle: {
+            // display: "flex",
+            // justifyContent: "center",
+            // alignItems: "center",
+            // width: "100%",
+            display: "flex", // Prevent flex-based stretching
+            justifyContent: "center",
+            alignItems: "center",
+            borderRadius: "6px", // Matches button border-radius
+            width: "100%",
+        },
+    },
+    {
+        icon: "lucide:text-selection",
+        type: "Text",
+        label: "Text",
+        textarea: "Sample Text",
+        style: {
+            backgroundColor: "#fff",
+            color: "#000000",
+            padding: "10px",
+            textAlign: "center",
+            fontSize: "18px",
+            fontWeight: "normal",
+            textTransform: "none", //lowercase , capitilized
+        },
+        outerStyle: {
+            backgroundColor: "#fff",
+            width: "100%",
+        },
+    },
+    {
+        icon: "lucide:image",
+        type: "Image",
+        label: "Image",
+        imageUrl: "/email-builder-img-placeholder.png",
+        alt: "Image",
+        url: "#",
+        style: {
+            backgroundColor: "#ffffff",
+            padding: "10px",
+            height: "50%",
+            width: "70%",
+            margin: "0px",
+            borderRadius: "0px",
+        },
+        outerStyle: {
+            display: "flex",
+            width: "100%",
+            justifyContent: "center",
+            alignItems: "center",
+            backgroundColor: "#fff",
+        },
+    },
+    {
+        icon: "mingcute:frame-line",
+        type: "Logo",
+        label: "Logo",
+        imageUrl: "email-builder-logo-placeholder.png",
+        alt: "logo",
+        url: "#",
+        style: {
+            backgroundColor: "#ffffff",
+            padding: "10px",
+            height: "30%",
+            width: "50%",
+        },
+        outerStyle: {
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            backgroundColor: "#fff",
+            width: "100%",
+        },
+    },
+
+    {
+        icon: "tdesign:component-divider-vertical",
+        type: "Divider",
+        label: "Divider",
+        content: "",
+        style: {
+            // color: "#000000",
+            padding: "0px",
+            width: "100%",
+            borderColor: "#BDBDBD",
+            borderWidth: "1px",
+            borderStyle: "solid",
+        },
+    },
+    {
+        type: "SocialIcons",
+        icon: "hugeicons:twitter",
+        label: "Social Icons",
+        socialIcons: [
+            {
+                icon: "https://email-social-icons.s3.ap-south-1.amazonaws.com/default/facebook.png",
+                url: "",
+            },
+            {
+                icon: "https://email-social-icons.s3.ap-south-1.amazonaws.com/default/twitter.png",
+                url: "",
+            },
+            {
+                icon: "https://email-social-icons.s3.ap-south-1.amazonaws.com/default/linkedin.png",
+                url: "",
+            },
+        ],
+        style: {
+            width: 40,
+            height: 40,
+            // border: "2px dashed #ccc",
+        },
+        outerStyle: {
+            display: "flex",
+            gap: 15,
+            width: "100%",
+            justifyContent: "center", // Center align icons horizontally
+            alignItems: "center",
+            // border: "2px dashed #ccc",
+        },
+    },
+    {
+        icon: "teenyicons:code-outline",
+        label: "HTML Code",
+        type: "Html",
+        textarea: "<div>Your HTML code preview here</div>",
+        style: {},
+    },
+    {
+        icon: "teenyicons:table-outline",
+        label: "Table",
+        type: "Table",
+        tableData: [
+            {
+                title: "Title 1",
+                description: "Description 1",
+            },
+            {
+                title: "Title 2",
+                description: "Description 2",
+            },
+            {
+                title: "Title 3",
+                description: "Description 3",
+            },
+        ],
+        style: {
+            textAlign: "center",
+            borderCollapse: "collapse",
+            backgroundColor: "ffffff",
+            color: "#000000",
+            padding: "10px",
+            width: "70%",
+            fontSize: "16px",
+            borderRadius: "6px",
+            fontWeight: "normal",
+            objectFit: "contain",
+        },
+        outerStyle: {
+            display: "flex",
+            width: "100%",
+            justifyContent: "center",
+            alignItems: "center",
+        },
+    },
+];

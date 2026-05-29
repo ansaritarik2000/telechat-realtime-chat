@@ -1,0 +1,92 @@
+export const countryCodes = [
+    {
+        name: "United States",
+        code: "US",
+        dial_code: "+1",
+        flag: "https://flagcdn.com/us.svg",
+    },
+    {
+        name: "United Kingdom",
+        code: "GB",
+        dial_code: "+44",
+        flag: "https://flagcdn.com/gb.svg",
+    },
+    {
+        name: "India",
+        code: "IN",
+        dial_code: "+91",
+        flag: "https://flagcdn.com/in.svg",
+    },
+    {
+        name: "China",
+        code: "CN",
+        dial_code: "+86",
+        flag: "https://flagcdn.com/cn.svg",
+    },
+    {
+        name: "Japan",
+        code: "JP",
+        dial_code: "+81",
+        flag: "https://flagcdn.com/jp.svg",
+    },
+    {
+        name: "Germany",
+        code: "DE",
+        dial_code: "+49",
+        flag: "https://flagcdn.com/de.svg",
+    },
+    {
+        name: "France",
+        code: "FR",
+        dial_code: "+33",
+        flag: "https://flagcdn.com/fr.svg",
+    },
+    {
+        name: "Italy",
+        code: "IT",
+        dial_code: "+39",
+        flag: "https://flagcdn.com/it.svg",
+    },
+    {
+        name: "Spain",
+        code: "ES",
+        dial_code: "+34",
+        flag: "https://flagcdn.com/es.svg",
+    },
+    {
+        name: "Canada",
+        code: "CA",
+        dial_code: "+1",
+        flag: "https://flagcdn.com/ca.svg",
+    },
+    {
+        name: "Australia",
+        code: "AU",
+        dial_code: "+61",
+        flag: "https://flagcdn.com/au.svg",
+    },
+    {
+        name: "Brazil",
+        code: "BR",
+        dial_code: "+55",
+        flag: "https://flagcdn.com/br.svg",
+    },
+    {
+        name: "Mexico",
+        code: "MX",
+        dial_code: "+52",
+        flag: "https://flagcdn.com/mx.svg",
+    },
+    {
+        name: "South Korea",
+        code: "KR",
+        dial_code: "+82",
+        flag: "https://flagcdn.com/kr.svg",
+    },
+    {
+        name: "Russia",
+        code: "RU",
+        dial_code: "+7",
+        flag: "https://flagcdn.com/ru.svg",
+    },
+];

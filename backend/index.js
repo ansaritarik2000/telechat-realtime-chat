@@ -9,6 +9,12 @@ import authRoutes from "./routes/authRoutes.js";
 import teleChatRoutes from "./routes/telechatRoutes.js";
 import messageRoutes from "./routes/telechat/messageRoutes.js";
 import ws from "ws";
+import path from "path";
+import { fileURLToPath } from "url";
+import memberRoutes from "./routes/memberRoutes.js";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 dotenv.config();
 
@@ -22,17 +28,13 @@ const PORT = process.env.PORT || 3005;
 const server = http.createServer(app);
 
 const io = new SocketIoServer(server, {
-  cors: { origin: process.env.CORS_ACCESS },
+  cors: { origin: "*" },
 });
 
 const supabase = createClient(
   process.env.SUPABASE_URL,
   process.env.SUPABASE_API_KEY,
-  {
-    realtime: {
-      transport: ws,
-    },
-  },
+  { realtime: { transport: ws } },
 );
 
 export const attachSupabase = (req, res, next) => {
@@ -41,35 +43,40 @@ export const attachSupabase = (req, res, next) => {
 };
 
 app.use(attachSupabase);
-app.use(cors({ origin: process.env.CORS_ACCESS }));
+app.use(cors({ origin: "*" }));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-// Routes
 app.use("/auth", authRoutes(supabase));
 app.use("/telechat", teleChatRoutes(supabase));
 app.use("/chating", messageRoutes(supabase));
+app.use("/member", memberRoutes(supabase));
 
 app.get("/", (req, res) => {
   res.send("TeleChat Server Running!");
 });
 
-// Socket.io — full code same rakho
+app.get("/test", (req, res) => {
+  res.sendFile(path.join(__dirname, "test.html"));
+});
+
 io.on("connection", (socket) => {
   console.log("User connected:", socket.id);
+
+  socket.onAny((event, ...args) => {
+    console.log("EVENT RECEIVED:", event, args);
+  });
 
   socket.on("joinGroup", async ({ groupId, userId }) => {
     if (!groupId || !userId) return;
     if (socket.currentGroupRoom) socket.leave(socket.currentGroupRoom);
     socket.join(groupId);
     socket.currentGroupRoom = groupId;
-
     const { data: messages, error } = await supabase
       .from("group_messages")
       .select("*")
       .eq("group_id", groupId)
       .order("created_at", { ascending: true });
-
     if (!error) socket.emit("groupMessages", messages);
   });
 
@@ -77,16 +84,13 @@ io.on("connection", (socket) => {
     "sendGroupMessage",
     async ({ groupId, senderId, content, mediaUrl }) => {
       if (!groupId || !senderId || (!content && !mediaUrl)) return;
-
       const { data: member } = await supabase
         .from("group_members")
         .select("user_id")
         .eq("group_id", groupId)
         .eq("user_id", senderId)
         .maybeSingle();
-
       if (!member) return;
-
       const { data: newMessage, error } = await supabase
         .from("group_messages")
         .insert([
@@ -100,7 +104,6 @@ io.on("connection", (socket) => {
         ])
         .select()
         .single();
-
       if (!error) io.to(groupId).emit("newGroupMessage", newMessage);
     },
   );
@@ -108,28 +111,43 @@ io.on("connection", (socket) => {
   let currentRoom = null;
 
   socket.on("joinRoom", async ({ sender, receiver }) => {
+    console.log("joinRoom received:", sender, receiver);
     if (!sender || !receiver) return;
     if (currentRoom) socket.leave(currentRoom);
 
-    const { data: chatRoom } = await supabase
+    const { data: chatRoom, error: chatError } = await supabase
       .from("chat_room")
       .select("*")
       .or(
         `and(participant_1.eq.${sender},participant_2.eq.${receiver}),and(participant_1.eq.${receiver},participant_2.eq.${sender})`,
       );
 
-    let room;
-    if (chatRoom && chatRoom.length) {
+    console.log("chatRoom:", chatRoom, "error:", chatError);
+
+    let room = null;
+
+    if (chatRoom && chatRoom.length > 0) {
       room = chatRoom[0];
+      console.log("existing room:", room);
     } else {
-      const { data: newRoom } = await supabase
+      const { data: newRoom, error: roomError } = await supabase
         .from("chat_room")
         .insert([{ participant_1: sender, participant_2: receiver }])
         .select();
-      room = newRoom[0];
-      await supabase
-        .from("chat_messages")
-        .insert([{ chat_room_id: room.id, messages: [] }]);
+
+      console.log("new room:", newRoom, "error:", roomError);
+
+      if (newRoom && newRoom.length > 0) {
+        room = newRoom[0];
+        await supabase
+          .from("chat_messages")
+          .insert([{ chat_room_id: room.id, messages: [] }]);
+      }
+    }
+
+    if (!room) {
+      console.log("room is null — cannot join");
+      return;
     }
 
     currentRoom = room.id;
@@ -154,15 +172,12 @@ io.on("connection", (socket) => {
       created_at: new Date().toISOString(),
       status: "sent",
     };
-
     const { data: chat, error } = await supabase
       .from("chat_messages")
       .select("messages")
       .eq("chat_room_id", roomId)
       .single();
-
     if (error) return;
-
     const updatedMessages = [...chat.messages, newMessage];
     await supabase
       .from("chat_messages")
@@ -177,9 +192,7 @@ io.on("connection", (socket) => {
       .select("messages")
       .eq("chat_room_id", roomId)
       .single();
-
     if (error || !data) return;
-
     let anyChanges = false;
     const updatedMessages = data.messages.map((msg) => {
       if (msg.receiver === readerId && msg.status !== "read") {
@@ -188,7 +201,6 @@ io.on("connection", (socket) => {
       }
       return msg;
     });
-
     if (anyChanges) {
       await supabase
         .from("chat_messages")

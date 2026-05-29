@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Socket Test</title>
+    <script src="https://cdn.socket.io/4.8.1/socket.io.min.js"></script>
+</head>
+<body>
+    <h1>Socket Test</h1>
+    <button onclick="joinRoom()">Join Room</button>
+    <div id="log"></div>
+    <button onclick="sendMsg()">Send Message</button>
+
+    <script>
+        const socket = io("http://localhost:3005");
+        
+        socket.on("connect", () => {
+            log("Connected: " + socket.id);
+        });
+
+        socket.on("receiveMessage", (msg) => {
+    log("Message received: " + msg.message);
+});
+function sendMsg() {
+    socket.emit("sendMessage", {
+        roomId: 1,
+        sender: 1,
+        receiver: 2,
+        message: "Hello from Tarik!"
+    });
+    log("Sent message");
+}
+
+        socket.on("joinedRoom", (roomId) => {
+            log("Joined Room: " + roomId);
+        });
+
+        function joinRoom() {
+            socket.emit("joinRoom", { sender: 1, receiver: 2 });
+            log("Sent joinRoom event");
+        }
+
+        function log(msg) {
+            document.getElementById("log").innerHTML += "<p>" + msg + "</p>";
+        }
+    </script>
+</body>
+</html>
