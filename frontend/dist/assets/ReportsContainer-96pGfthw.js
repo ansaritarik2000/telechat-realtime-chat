@@ -1,0 +1,1 @@
+import{fv as e}from"./index-DLcypSr7.js";function s({children:o}){return e.jsx("section",{className:"flex flex-col gap-6",children:e.jsx("div",{className:"p-6 border border-default rounded-lg shadow-sm flex flex-col gap-8 bg-content",children:o})})}export{s as R};

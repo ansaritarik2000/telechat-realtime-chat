@@ -1,1 +1,0 @@
-import{dY as a}from"./index-C7kgUB-v.js";const s=a(t=>({dashboardDate:new Date,setDashboardDate:e=>t(r=>({...r,dashboardDate:e})),currentSlide:0,setCurrentSlide:e=>t(r=>({...r,currentSlide:e}))}));export{s as u};
