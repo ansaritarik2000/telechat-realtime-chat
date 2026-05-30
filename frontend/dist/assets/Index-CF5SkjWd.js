@@ -1,0 +1,1 @@
+import{fv as e,ei as r}from"./index-C7kgUB-v.js";function a({label:s,size:i="lg"}){return e.jsxs("div",{className:"flex justify-center items-center gap-2",children:[e.jsx("h2",{className:`font-semibold ${i} w-fit`,children:s}),e.jsx("div",{className:"flex-1",children:e.jsx(r,{})})]})}export{a as D};
